@@ -1,22 +1,22 @@
 import os
 import uuid
-from typing import Union, Dict, Any
+from typing import Union, Dict, Any, Optional # 补充导入 Optional
 from loguru import logger
 import chainlit.data as cl_data
 from chainlit.data.sql_alchemy import SQLAlchemyDataLayer
+from chainlit.data import BaseDataLayer # 导入新的基类
 import psycopg2
 from psycopg2 import sql
 
 from app.utils import utils
 
 db_name = os.getenv("POSTGRES_DB", "audio_notes")
-db_user = os.getenv("POSTGRES_USER", "username")
-db_password = os.getenv("POSTGRES_PASSWORD", "password")
-db_host = os.getenv("POSTGRES_HOST", "localhost")
-db_port = os.getenv("POSTGRES_PORT", "5432")
+db_user = os.getenv("POSTGRES_USER", "postgres")
+db_password = os.getenv("POSTGRES_PASSWORD", "admin")
+db_host = os.getenv("POSTGRES_HOST", "192.168.125.100")
+db_port = os.getenv("POSTGRES_PORT", "65432")
 
-
-class StorageClient(cl_data.BaseStorageClient):
+class StorageClient:
     def __init__(self, bucket: str = ""):
         try:
             self.bucket = bucket
@@ -24,19 +24,62 @@ class StorageClient(cl_data.BaseStorageClient):
         except Exception as e:
             logger.warning(f"StorageClient initialization error: {e}")
 
-    async def upload_file(self, object_key: str, data: Union[bytes, str], mime: str = 'application/octet-stream',
-                          overwrite: bool = True) -> Dict[str, Any]:
+    # 新版 API 使用 upload_element 替代了 upload_file
+    # async def upload_element(self, content: Union[bytes, str], mime: str = 'application/octet-stream') -> Dict[str, Any]:
+    #     try:
+    #         filename = str(uuid.uuid4())
+    #         # 获取后缀，如果没有后缀默认用 bin
+    #         extname = ".bin" 
+    #         # 注意：新版 content 通常直接传入，不再通过 object_key
+    #         object_key = filename + extname
+    #         file_path = os.path.join(utils.upload_dir(), object_key)
+            
+    #         mode = 'wb' if isinstance(content, bytes) else 'w'
+    #         with open(file_path, mode) as f:
+    #             f.write(content)
+            
+    #         # 返回新版要求的格式
+    #         return {"object_key": object_key, "url": f"/uploads/{object_key}"}
+    #     except Exception as e:
+    #         logger.warning(f"StorageClient, upload_element error: {e}")
+    #         return {}
+
+    async def upload_element(self, content: Union[bytes, str], mime: str = 'application/octet-stream') -> Dict[str, Any]:
         try:
             filename = str(uuid.uuid4())
-            extname = os.path.splitext(object_key)[1].lower()
+            extname = ".bin" # 或者根据 mime 类型判断后缀
             object_key = filename + extname
             file_path = os.path.join(utils.upload_dir(), object_key)
-            with open(file_path, 'wb') as f:
-                f.write(data)
+            
+            mode = 'wb' if isinstance(content, bytes) else 'w'
+            with open(file_path, mode) as f:
+                f.write(content)
+            
             return {"object_key": object_key, "url": f"/uploads/{object_key}"}
         except Exception as e:
-            logger.warning(f"StorageClient, upload_file error: {e}")
+            logger.warning(f"StorageClient upload error: {e}")
             return {}
+# class StorageClient(cl_data.BaseStorageClient):
+#     def __init__(self, bucket: str = ""):
+#         try:
+#             self.bucket = bucket
+#             logger.info("StorageClient initialized")
+#         except Exception as e:
+#             logger.warning(f"StorageClient initialization error: {e}")
+
+#     async def upload_file(self, object_key: str, data: Union[bytes, str], mime: str = 'application/octet-stream',
+#                           overwrite: bool = True) -> Dict[str, Any]:
+#         try:
+#             filename = str(uuid.uuid4())
+#             extname = os.path.splitext(object_key)[1].lower()
+#             object_key = filename + extname
+#             file_path = os.path.join(utils.upload_dir(), object_key)
+#             with open(file_path, 'wb') as f:
+#                 f.write(data)
+#             return {"object_key": object_key, "url": f"/uploads/{object_key}"}
+#         except Exception as e:
+#             logger.warning(f"StorageClient, upload_file error: {e}")
+#             return {}
 
 
 def get_connection_url(driver: str = "asyncpg"):
@@ -134,9 +177,26 @@ CREATE TABLE IF NOT EXISTS feedbacks (
     conn.close()
 
 
+# def init():
+#     __init_db()
+#     __init_tables()
+#     cl_data._data_layer = SQLAlchemyDataLayer(conninfo=get_connection_url(),
+#                                               storage_provider=StorageClient(),
+#                                               show_logger=False)
+
 def init():
     __init_db()
     __init_tables()
-    cl_data._data_layer = SQLAlchemyDataLayer(conninfo=get_connection_url(),
-                                              storage_provider=StorageClient(),
-                                              show_logger=False)
+    
+    # 1. 先创建标准的 SQLAlchemy 数据层
+    layer = SQLAlchemyDataLayer(
+        conninfo=get_connection_url(),
+        show_logger=False
+    )
+    
+    # 2. 重点：手动把你自定义的存储逻辑“嫁接”上去
+    client = StorageClient()
+    layer.upload_element = client.upload_element 
+    
+    # 3. 赋值给 Chainlit 内部变量
+    cl_data._data_layer = layer

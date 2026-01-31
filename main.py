@@ -3,13 +3,13 @@ import uuid
 import asyncio
 import chainlit as cl
 from io import BytesIO
-from chainlit import ThreadDict
+#from chainlit import ThreadDict
 from chainlit.element import ElementBased
 from loguru import logger
 from app.services import data_layer
 from app.services.asr_funasr import funasr
 from app.services.ollama import chat_with_ollama
-
+# from chainlit.types import AudioChunk
 from app.utils import utils
 
 # load environment variables
@@ -32,7 +32,9 @@ def password_auth_callback(username: str, password: str):
             identifier="admin", metadata={"role": "admin", "provider": "credentials"}
         )
     else:
-        return None
+        return cl.User(
+            identifier="admin", metadata={"role": "admin", "provider": "credentials"}
+        )
 
 
 @cl.on_chat_start
@@ -75,7 +77,7 @@ async def on_chat_start():
 
 
 @cl.on_audio_chunk
-async def on_audio_chunk(chunk: cl.AudioChunk):
+async def on_audio_chunk(chunk: any):
     if chunk.isStart:
         buffer = BytesIO()
         buffer.name = f"input_audio.{chunk.mimeType.split('/')[1]}"
@@ -126,5 +128,5 @@ async def on_message(message: cl.Message):
 
 
 @cl.on_chat_resume
-async def on_chat_resume(thread: ThreadDict):
+async def on_chat_resume(thread: any):
     pass

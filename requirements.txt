@@ -1,4 +1,4 @@
-chainlit
+chainlit==1.1.401
 loguru
 funasr
 faster_whisper

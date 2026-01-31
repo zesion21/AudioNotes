@@ -1,0 +1,7 @@
+2026-01-31 12:25:59.799 | INFO     | app.services.data_layer:__init__:23 - StorageClient initialized
+2026-01-31 12:26:09.429 | INFO     | app.services.data_layer:__init__:23 - StorageClient initialized
+2026-01-31 12:30:06.163 | INFO     | app.services.data_layer:__init__:23 - StorageClient initialized
+2026-01-31 12:30:42.929 | INFO     | app.services.data_layer:__init__:23 - StorageClient initialized
+2026-01-31 12:32:26.761 | INFO     | app.services.data_layer:__init__:23 - StorageClient initialized
+2026-01-31 12:35:02.052 | INFO     | app.services.data_layer:__init__:23 - StorageClient initialized
+2026-01-31 12:35:28.782 | DEBUG    | app.services.asr_funasr:__init_model:13 - funasr :: init model start
