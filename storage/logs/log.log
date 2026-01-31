@@ -5,3 +5,26 @@
 2026-01-31 12:32:26.761 | INFO     | app.services.data_layer:__init__:23 - StorageClient initialized
 2026-01-31 12:35:02.052 | INFO     | app.services.data_layer:__init__:23 - StorageClient initialized
 2026-01-31 12:35:28.782 | DEBUG    | app.services.asr_funasr:__init_model:13 - funasr :: init model start
+2026-01-31 12:39:06.870 | INFO     | app.services.data_layer:__init__:23 - StorageClient initialized
+2026-01-31 12:39:24.210 | DEBUG    | app.services.asr_funasr:__init_model:13 - funasr :: init model start
+2026-01-31 12:39:51.765 | DEBUG    | app.services.asr_funasr:__init_model:21 - funasr :: init model complete
+2026-01-31 12:39:51.765 | INFO     | app.services.asr_funasr:transcribe:51 - funasr :: start transcribe audio file: E:\py\AudioNotes\.files\6a1caa3a-c65a-477d-8d8f-3382769a5306\2da2c1f3-80a7-490d-9336-83839c964b06.wav
+2026-01-31 12:39:53.276 | INFO     | app.services.asr_funasr:transcribe:55 - funasr :: complete transcribe audio file: E:\py\AudioNotes\.files\6a1caa3a-c65a-477d-8d8f-3382769a5306\2da2c1f3-80a7-490d-9336-83839c964b06.wav
+2026-01-31 12:39:53.277 | DEBUG    | app.services.ollama:chat_with_ollama:10 - chat with ollama: http://localhost:11434/v1, model: qwen2:7b
+2026-01-31 12:43:54.367 | INFO     | app.services.asr_funasr:transcribe:51 - funasr :: start transcribe audio file: E:\py\AudioNotes\.files\5bc8b985-e13c-41ea-99fb-92fe876f1fe4\7b1e1ba6-68ee-4378-8769-1d15abe20ead.mp4
+2026-01-31 12:44:00.345 | INFO     | app.services.asr_funasr:transcribe:55 - funasr :: complete transcribe audio file: E:\py\AudioNotes\.files\5bc8b985-e13c-41ea-99fb-92fe876f1fe4\7b1e1ba6-68ee-4378-8769-1d15abe20ead.mp4
+2026-01-31 12:44:00.346 | DEBUG    | app.services.ollama:chat_with_ollama:10 - chat with ollama: http://localhost:11434/v1, model: qwen2:7b
+2026-01-31 12:57:45.091 | INFO     | app.services.data_layer:__init_tables:117 - SQLite tables initialized at E:\py\AudioNotes\chainlit.db
+2026-01-31 12:57:45.101 | INFO     | app.services.data_layer:__init__:17 - StorageClient initialized
+2026-01-31 12:58:00.220 | DEBUG    | app.services.asr_funasr:__init_model:13 - funasr :: init model start
+2026-01-31 12:58:22.560 | DEBUG    | app.services.asr_funasr:__init_model:21 - funasr :: init model complete
+2026-01-31 12:58:22.560 | INFO     | app.services.asr_funasr:transcribe:51 - funasr :: start transcribe audio file: E:\py\AudioNotes\.files\b7bffc1e-b639-488f-839d-db45ee5cff9e\e2e8ecc1-1edc-4604-92ca-382402c0d658.wav
+2026-01-31 12:58:24.045 | INFO     | app.services.asr_funasr:transcribe:55 - funasr :: complete transcribe audio file: E:\py\AudioNotes\.files\b7bffc1e-b639-488f-839d-db45ee5cff9e\e2e8ecc1-1edc-4604-92ca-382402c0d658.wav
+2026-01-31 12:58:24.046 | DEBUG    | app.services.ollama:chat_with_ollama:10 - chat with ollama: http://localhost:11434/v1, model: qwen2:7b
+2026-01-31 12:59:55.929 | INFO     | app.services.data_layer:__init_tables:119 - SQLite tables initialized at E:\py\AudioNotes\chainlit.db
+2026-01-31 12:59:55.938 | INFO     | app.services.data_layer:__init__:17 - StorageClient initialized
+2026-01-31 13:00:06.704 | DEBUG    | app.services.asr_funasr:__init_model:13 - funasr :: init model start
+2026-01-31 13:00:30.809 | DEBUG    | app.services.asr_funasr:__init_model:21 - funasr :: init model complete
+2026-01-31 13:00:30.809 | INFO     | app.services.asr_funasr:transcribe:51 - funasr :: start transcribe audio file: E:\py\AudioNotes\.files\7263c4bf-e6a1-4dac-be5b-cef2afde09b7\7035eada-6010-4504-b7d7-487795831200.wav
+2026-01-31 13:00:32.693 | INFO     | app.services.asr_funasr:transcribe:55 - funasr :: complete transcribe audio file: E:\py\AudioNotes\.files\7263c4bf-e6a1-4dac-be5b-cef2afde09b7\7035eada-6010-4504-b7d7-487795831200.wav
+2026-01-31 13:00:32.694 | DEBUG    | app.services.ollama:chat_with_ollama:10 - chat with ollama: http://localhost:11434/v1, model: qwen2:7b
